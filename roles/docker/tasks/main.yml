@@ -1,0 +1,22 @@
+---
+- name: Vérifier que le client Docker est disponible
+  ansible.builtin.command:
+    argv:
+      - docker
+      - --version
+  changed_when: false
+
+- name: Vérifier que Docker Compose est disponible
+  ansible.builtin.command:
+    argv:
+      - docker
+      - compose
+      - version
+  changed_when: false
+
+- name: Vérifier que le moteur Docker Desktop est accessible depuis WSL
+  ansible.builtin.command:
+    argv:
+      - docker
+      - info
+  changed_when: false

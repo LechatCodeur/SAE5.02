@@ -1,0 +1,7 @@
+---
+- name: Vérifier Docker Desktop depuis WSL
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - docker

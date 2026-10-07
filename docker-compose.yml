@@ -1,0 +1,114 @@
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      TZ: "${TZ:-Europe/Paris}"
+    volumes:
+      - ./mediastack/config/prowlarr:/config
+    ports:
+      - "127.0.0.1:9696:9696"
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      TZ: "${TZ:-Europe/Paris}"
+    volumes:
+      - ./mediastack/config/sonarr:/config
+      - ./mediastack/data:/data
+    ports:
+      - "127.0.0.1:8989:8989"
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      TZ: "${TZ:-Europe/Paris}"
+    volumes:
+      - ./mediastack/config/radarr:/config
+      - ./mediastack/data:/data
+    ports:
+      - "127.0.0.1:7878:7878"
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      TZ: "${TZ:-Europe/Paris}"
+      WEBUI_PORT: "8080"
+      TORRENTING_PORT: "6881"
+    volumes:
+      - ./mediastack/config/qbittorrent:/config
+      - ./mediastack/data:/data
+    ports:
+      - "127.0.0.1:8080:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    volumes:
+      - ./mediastack/config/jellyfin:/config
+      - ./mediastack/data/film:/media/film:ro
+      - ./mediastack/data/serie:/media/serie:ro
+    ports:
+      - "8096:8096"
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  komga:
+    image: gotson/komga:latest
+    container_name: komga
+    volumes:
+      - ./mediastack/config/komga:/config
+      - ./mediastack/data/livre:/books:ro
+    ports:
+      - "25600:25600"
+    restart: unless-stopped
+    networks:
+      - media_network
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      TZ: "${TZ:-Europe/Paris}"
+    volumes:
+      - ./mediastack/config/bazarr:/config
+      - ./mediastack/data/film:/data/film
+      - ./mediastack/data/serie:/data/serie
+    ports:
+      - "127.0.0.1:6767:6767"
+    restart: unless-stopped
+    networks:
+      - media_network
+
+networks:
+  media_network:
+    name: media_network
+    driver: bridge

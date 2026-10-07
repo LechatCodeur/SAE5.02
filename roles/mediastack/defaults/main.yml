@@ -1,0 +1,15 @@
+---
+mediastack_root: "{{ playbook_dir }}/../mediastack"
+
+mediastack_directories:
+  - data/dl
+  - data/film
+  - data/serie
+  - data/livre
+  - config/prowlarr
+  - config/sonarr
+  - config/radarr
+  - config/qbittorrent
+  - config/jellyfin
+  - config/komga
+  - config/bazarr

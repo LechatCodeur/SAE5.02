@@ -1,0 +1,7 @@
+/mediastack/config/**/*
+!/mediastack/config/**/
+!/mediastack/config/**/.gitkeep
+
+/mediastack/data/**/*
+!/mediastack/data/**/
+!/mediastack/data/**/.gitkeep

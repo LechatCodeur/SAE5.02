@@ -103,15 +103,15 @@ roles/
 
 `docker`
 
-Installation et configuration de Docker et Docker Compose.
+Vérification de la disponibilité de Docker Desktop et de Docker Compose depuis WSL. Docker Desktop doit être installé et son intégration WSL activée avant l'exécution du rôle.
 
 `storage`
 
-Création de l'arborescence `/srv/mediastack`, des différents répertoires nécessaires et configuration des permissions.
+Prévu pour la gestion du stockage et des permissions sur l'environnement cible.
 
 `mediastack`
 
-Création du réseau Docker `media_network` et déploiement des 7 services avec Docker Compose.
+Création de l'arborescence locale `mediastack/data` et `mediastack/config` nécessaire aux volumes Docker. Le rôle ne démarre pas les conteneurs.
 
 `security`
 
@@ -150,6 +150,21 @@ Verify
 ```
 
 L'objectif est de pouvoir lancer le déploiement complet depuis le playbook principal.
+
+La première étape peut être vérifiée séparément, sans démarrer les conteneurs :
+
+```bash
+source /opt/ansible-venv/bin/activate
+ANSIBLE_ROLES_PATH="$PWD/roles" ansible-playbook playbooks/docker.yml
+```
+
+Cette commande est à exécuter depuis la racine du dépôt dans Ubuntu sous WSL.
+
+L'arborescence peut également être créée seule, sans démarrer les conteneurs :
+
+```bash
+ANSIBLE_ROLES_PATH="$PWD/roles" ansible-playbook -i localhost, playbooks/mediastack.yml
+```
 
 ## 7. Réseau et ports
 

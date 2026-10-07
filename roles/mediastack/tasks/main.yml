@@ -1,0 +1,6 @@
+---
+- name: Créer les répertoires de données et de configuration
+  ansible.builtin.file:
+    path: "{{ mediastack_root }}/{{ item }}"
+    state: directory
+  loop: "{{ mediastack_directories }}"
